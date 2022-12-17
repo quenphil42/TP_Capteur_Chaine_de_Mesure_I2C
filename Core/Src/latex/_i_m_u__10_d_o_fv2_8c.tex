@@ -1,0 +1,125 @@
+\hypertarget{_i_m_u__10_d_o_fv2_8c}{}\doxysection{IMU\+\_\+10\+DOFv2.\+c File Reference}
+\label{_i_m_u__10_d_o_fv2_8c}\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+
+
+\+: Fichier contenant les fonctions en rapport avec le composant IMU\+\_\+10\+DOFv2  
+
+
+{\ttfamily \#include \char`\"{}IMU\+\_\+10\+DOFv2.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a9779eacd4b3217b13457874775e5b066}{Search\+BMP280}} ()
+\begin{DoxyCompactList}\small\item\em fonction qui permet de verifier qu\textquotesingle{}on arrive à communiquer avec le capteur BMP280 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a4e71e00ad4464a27ab9fd18e363c67ce}{Search\+MPU9250}} ()
+\begin{DoxyCompactList}\small\item\em fonction qui permet de verifier qu\textquotesingle{}on arrive à communiquer avec le capteur MPU9250 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a7a51e888274d9452815c52c048f9d33f}{Test\+Sensor\+On\+I2C}} (int $\ast$tab)
+\begin{DoxyCompactList}\small\item\em Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via uart. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a1754a3cdec04654af5d6c6606ef1b020}{Print\+Tab}} (int $\ast$tab)
+\begin{DoxyCompactList}\small\item\em cette fonction permet d\textquotesingle{}afficher le contenu du tableau tab \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_abc1dd3935bc922fde12a9e670818bb38}{Init\+\_\+\+IMU\+\_\+10\+DOF}} (I2\+C\+\_\+\+Handle\+Type\+Def $\ast$i2c\+\_\+handle)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\+: Fichier contenant les fonctions en rapport avec le composant IMU\+\_\+10\+DOFv2 
+
+Created on\+: 13 déc. 2022 Author\+: quent 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_i_m_u__10_d_o_fv2_8c_abc1dd3935bc922fde12a9e670818bb38}\label{_i_m_u__10_d_o_fv2_8c_abc1dd3935bc922fde12a9e670818bb38}} 
+\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}!Init\_IMU\_10DOF@{Init\_IMU\_10DOF}}
+\index{Init\_IMU\_10DOF@{Init\_IMU\_10DOF}!IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+\doxysubsubsection{\texorpdfstring{Init\_IMU\_10DOF()}{Init\_IMU\_10DOF()}}
+{\footnotesize\ttfamily void Init\+\_\+\+IMU\+\_\+10\+DOF (\begin{DoxyParamCaption}\item[{I2\+C\+\_\+\+Handle\+Type\+Def $\ast$}]{i2c\+\_\+handle }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em i2c\+\_\+handle} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_i_m_u__10_d_o_fv2_8c_a1754a3cdec04654af5d6c6606ef1b020}\label{_i_m_u__10_d_o_fv2_8c_a1754a3cdec04654af5d6c6606ef1b020}} 
+\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}!PrintTab@{PrintTab}}
+\index{PrintTab@{PrintTab}!IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+\doxysubsubsection{\texorpdfstring{PrintTab()}{PrintTab()}}
+{\footnotesize\ttfamily void Print\+Tab (\begin{DoxyParamCaption}\item[{int $\ast$}]{tab }\end{DoxyParamCaption})}
+
+
+
+cette fonction permet d\textquotesingle{}afficher le contenu du tableau tab 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tab} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_i_m_u__10_d_o_fv2_8c_a9779eacd4b3217b13457874775e5b066}\label{_i_m_u__10_d_o_fv2_8c_a9779eacd4b3217b13457874775e5b066}} 
+\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}!SearchBMP280@{SearchBMP280}}
+\index{SearchBMP280@{SearchBMP280}!IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+\doxysubsubsection{\texorpdfstring{SearchBMP280()}{SearchBMP280()}}
+{\footnotesize\ttfamily void Search\+BMP280 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+fonction qui permet de verifier qu\textquotesingle{}on arrive à communiquer avec le capteur BMP280 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bcom} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_i_m_u__10_d_o_fv2_8c_a4e71e00ad4464a27ab9fd18e363c67ce}\label{_i_m_u__10_d_o_fv2_8c_a4e71e00ad4464a27ab9fd18e363c67ce}} 
+\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}!SearchMPU9250@{SearchMPU9250}}
+\index{SearchMPU9250@{SearchMPU9250}!IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+\doxysubsubsection{\texorpdfstring{SearchMPU9250()}{SearchMPU9250()}}
+{\footnotesize\ttfamily void Search\+MPU9250 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+fonction qui permet de verifier qu\textquotesingle{}on arrive à communiquer avec le capteur MPU9250 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bcom} & (uint8)\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_i_m_u__10_d_o_fv2_8c_a7a51e888274d9452815c52c048f9d33f}\label{_i_m_u__10_d_o_fv2_8c_a7a51e888274d9452815c52c048f9d33f}} 
+\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}!TestSensorOnI2C@{TestSensorOnI2C}}
+\index{TestSensorOnI2C@{TestSensorOnI2C}!IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+\doxysubsubsection{\texorpdfstring{TestSensorOnI2C()}{TestSensorOnI2C()}}
+{\footnotesize\ttfamily void Test\+Sensor\+On\+I2C (\begin{DoxyParamCaption}\item[{int $\ast$}]{tab }\end{DoxyParamCaption})}
+
+
+
+Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via uart. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}

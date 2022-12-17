@@ -1,10 +1,12 @@
-/*
- * IMU_10DOFv2.c
- *
- *  Created on: 13 déc. 2022
- *      Author: quent
- */
-
+/**
+  ******************************************************************************
+  * @file           : IMU_10DOFv2.c
+  * @brief          : Fichier contenant les fonctions en rapport avec le composant IMU_10DOFv2
+  *
+  * Created on: 13 déc. 2022
+  * Author: quent
+  ******************************************************************************
+  */
 #include "IMU_10DOFv2.h"
 
 
@@ -13,6 +15,8 @@
  * @brief fonction qui permet de verifier qu'on arrive à communiquer avec le capteur BMP280
  *
  * @param bcom
+ *
+ * @retval None
  */
 void SearchBMP280()
 {
@@ -46,6 +50,8 @@ void SearchBMP280()
  * @brief fonction qui permet de verifier qu'on arrive à communiquer avec le capteur MPU9250
  *
  * @param bcom (uint8)
+ *
+ * @retval None
  */
 void SearchMPU9250()
 {
@@ -78,6 +84,9 @@ void SearchMPU9250()
 /**
  * @brief Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via uart
  *
+ * @param None
+ *
+ * @retval None
  */
 void TestSensorOnI2C(int * tab)
 {
@@ -105,6 +114,8 @@ void TestSensorOnI2C(int * tab)
  * @brief cette fonction permet d'afficher le contenu du tableau tab
  *
  * @param tab
+ *
+ * @retval None
  */
 void PrintTab(int * tab)
 {
@@ -120,6 +131,13 @@ void PrintTab(int * tab)
 
 }
 
+/**
+ * @brief
+ *
+ * @param i2c_handle
+ *
+ * @retval None
+ */
 void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 {
 	int result;
