@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := TP_Capteurs
+BUILD_ARTIFACT_NAME := TP_Capteur_Chaine_de_Mesure_I2C
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-TP_Capteurs.elf \
+TP_Capteur_Chaine_de_Mesure_I2C.elf \
 
 MAP_FILES += \
-TP_Capteurs.map \
+TP_Capteur_Chaine_de_Mesure_I2C.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-TP_Capteurs.list \
+TP_Capteur_Chaine_de_Mesure_I2C.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: TP_Capteurs.elf secondary-outputs
+main-build: TP_Capteur_Chaine_de_Mesure_I2C.elf secondary-outputs
 
 # Tool invocations
-TP_Capteurs.elf TP_Capteurs.map: $(OBJS) $(USER_OBJS) D:\Quentin_Documents\Cergy\ENSEA\3A\Capteurs\TP_Capteurs\STM32G431RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "TP_Capteurs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Quentin_Documents\Cergy\ENSEA\3A\Capteurs\TP_Capteurs\STM32G431RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TP_Capteurs.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+TP_Capteur_Chaine_de_Mesure_I2C.elf TP_Capteur_Chaine_de_Mesure_I2C.map: $(OBJS) $(USER_OBJS) D:\Quentin_Documents\Cergy\ENSEA\3A\Capteurs\TP\TP_Capteur_Chaine_de_Mesure_I2C\STM32G431RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "TP_Capteur_Chaine_de_Mesure_I2C.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Quentin_Documents\Cergy\ENSEA\3A\Capteurs\TP\TP_Capteur_Chaine_de_Mesure_I2C\STM32G431RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TP_Capteur_Chaine_de_Mesure_I2C.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-TP_Capteurs.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "TP_Capteurs.list"
+TP_Capteur_Chaine_de_Mesure_I2C.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "TP_Capteur_Chaine_de_Mesure_I2C.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) TP_Capteurs.elf TP_Capteurs.list TP_Capteurs.map default.size.stdout
+	-$(RM) TP_Capteur_Chaine_de_Mesure_I2C.elf TP_Capteur_Chaine_de_Mesure_I2C.list TP_Capteur_Chaine_de_Mesure_I2C.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

@@ -14,11 +14,13 @@ void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a9779eacd4b3217b13457874775e5b066}{S
 void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a4e71e00ad4464a27ab9fd18e363c67ce}{Search\+MPU9250}} ()
 \begin{DoxyCompactList}\small\item\em fonction qui permet de verifier qu\textquotesingle{}on arrive à communiquer avec le capteur MPU9250 \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a7a51e888274d9452815c52c048f9d33f}{Test\+Sensor\+On\+I2C}} (int $\ast$tab)
-\begin{DoxyCompactList}\small\item\em Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via uart. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via UART. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_a1754a3cdec04654af5d6c6606ef1b020}{Print\+Tab}} (int $\ast$tab)
 \begin{DoxyCompactList}\small\item\em cette fonction permet d\textquotesingle{}afficher le contenu du tableau tab \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_abc1dd3935bc922fde12a9e670818bb38}{Init\+\_\+\+IMU\+\_\+10\+DOF}} (I2\+C\+\_\+\+Handle\+Type\+Def $\ast$i2c\+\_\+handle)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Fonction qui reset les valeurs stockées dans les registres et initialises les PLL. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_i_m_u__10_d_o_fv2_8c_ad36d146c0ca5cc709f6df09d83e0154d}{Measure\+\_\+T}} (I2\+C\+\_\+\+Handle\+Type\+Def $\ast$i2c\+\_\+handle, double $\ast$temp)
+\begin{DoxyCompactList}\small\item\em Fonction qui permet de lire la temperature depuis les registres puis de la convertir en une valeur exploitable en °C. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -34,8 +36,32 @@ Created on\+: 13 déc. 2022 Author\+: quent
 {\footnotesize\ttfamily void Init\+\_\+\+IMU\+\_\+10\+DOF (\begin{DoxyParamCaption}\item[{I2\+C\+\_\+\+Handle\+Type\+Def $\ast$}]{i2c\+\_\+handle }\end{DoxyParamCaption})}
 
 
+
+Fonction qui reset les valeurs stockées dans les registres et initialises les PLL. 
+
+
 \begin{DoxyParams}{Parameters}
 {\em i2c\+\_\+handle} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_i_m_u__10_d_o_fv2_8c_ad36d146c0ca5cc709f6df09d83e0154d}\label{_i_m_u__10_d_o_fv2_8c_ad36d146c0ca5cc709f6df09d83e0154d}} 
+\index{IMU\_10DOFv2.c@{IMU\_10DOFv2.c}!Measure\_T@{Measure\_T}}
+\index{Measure\_T@{Measure\_T}!IMU\_10DOFv2.c@{IMU\_10DOFv2.c}}
+\doxysubsubsection{\texorpdfstring{Measure\_T()}{Measure\_T()}}
+{\footnotesize\ttfamily void Measure\+\_\+T (\begin{DoxyParamCaption}\item[{I2\+C\+\_\+\+Handle\+Type\+Def $\ast$}]{i2c\+\_\+handle,  }\item[{double $\ast$}]{temp }\end{DoxyParamCaption})}
+
+
+
+Fonction qui permet de lire la temperature depuis les registres puis de la convertir en une valeur exploitable en °C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+C\+\_\+\+Handle\+Type\+Def$\ast$} & i2c\+\_\+handle, double$\ast$ temp\\
 \hline
 \end{DoxyParams}
 
@@ -111,7 +137,7 @@ fonction qui permet de verifier qu\textquotesingle{}on arrive à communiquer ave
 
 
 
-Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via uart. 
+Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via UART. 
 
 
 \begin{DoxyParams}{Parameters}

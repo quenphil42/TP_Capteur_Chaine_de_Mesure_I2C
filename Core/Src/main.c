@@ -74,7 +74,7 @@ int tabI2CAdd[8] = {0,0,0,0,0,0,0,0};
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	double temp = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -127,8 +127,8 @@ int main(void)
   while (1)
   {
 
-
-
+	  Measure_T(&hi2c1,&temp);
+	  HAL_Delay(1000);
 
 
     /* USER CODE END WHILE */

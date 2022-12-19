@@ -27,6 +27,8 @@
 #define MPU_WHO_AM_I_ID_VAL 0x71 //valeur qu'on doit trouver
 #define MPU_RESET_VALUE 0x80
 
+#define TEMP_OUT_H 0x65
+
 
 
 
@@ -38,5 +40,6 @@ void SearchMPU9250();
 void TestSensorOnI2C(int * tab);
 void PrintTab(int * tab);
 void Init_IMU_10DOF(I2C_HandleTypeDef*);
+void Measure_T(I2C_HandleTypeDef* i2c_handle, double* temp);
 
 #endif /* INC_IMU_10DOFV2_H_ */

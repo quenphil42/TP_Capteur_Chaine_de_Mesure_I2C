@@ -23,7 +23,7 @@ void SearchBMP280()
 	int result;
 	uint8_t bcom[MAX_COM_BUF];
 
-	bcom[0] = BMP_ADDR;
+	bcom[0] = BMP_ID_REG;
 	printf("Recherche Capteur BMP280\r\n\n");
 
 	result = HAL_I2C_Master_Transmit(&hi2c1, BMP_ADDR, bcom, 1, HAL_TIMEOUT); //bcom = addresse de bcom[0]
@@ -82,7 +82,7 @@ void SearchMPU9250()
 }
 
 /**
- * @brief Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via uart
+ * @brief Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via UART
  *
  * @param None
  *
@@ -132,7 +132,7 @@ void PrintTab(int * tab)
 }
 
 /**
- * @brief
+ * @brief Fonction qui reset les valeurs stockées dans les registres et initialises les PLL
  *
  * @param i2c_handle
  *
@@ -143,24 +143,83 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 	int result;
 	uint8_t bcom[MAX_COM_BUF];
 
+
 	//HW Reset
 	printf("debut reset value\r\n");
+
+
 	printf("MPU\r\n");
 
 	bcom[0] = MPU_RESET_VALUE;
 	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
 	if(result != HAL_OK)
 	{
+		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
+		Error_Handler();
+	}
+
+
+	HAL_Delay(100); //laisse le temps d'effacer tous les registres
+
+
+	result = HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom+1, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	/*if(result != HAL_OK)
+	{
+		printf("Error I2C Mem Read Init_IMU_10_DOF Reset MPU\r\n");
+		printf("result = %d\r\n", result);
+		Error_Handler();
+	}*/
+	printf("reset value MPU = 0x%x\r\n",bcom[1]);
+
+
+	bcom[0] = 0x01; //choix de la PLL donnant le plus de precision
+	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	if(result != HAL_OK)
+	{
+		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
+		Error_Handler();
+	}
+
+
+
+
+	printf("BMP\r\n");
+
+
+	bcom[0] = BMP_RESET_VALUE;
+	result = HAL_I2C_Mem_Write(&hi2c1, BMP_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	if(result != HAL_OK)
+	{
 		printf("Error I2C Mem Write Init_IMU_10_DOF Reset BMP\r\n");
 		Error_Handler();
 	}
-	result = HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	result = HAL_I2C_Mem_Read(&hi2c1, BMP_ADDR, PWR_MGMT_1,1, bcom+1, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
 	if(result != HAL_OK)
 	{
 		printf("Error I2C Mem Read Init_IMU_10_DOF Reset BMP\r\n");
+		printf("result = %d\r\n", result);
 		Error_Handler();
 	}
+	printf("reset value BMP = 0x%x\r\n",bcom[1]);
 
 
-	printf("fin reset value\r\n");
+	printf("\nfin reset value\r\n\n");
+
+
+}
+
+/**
+ * @brief Fonction qui permet de lire la temperature depuis les registres puis de la convertir en une valeur exploitable en °C
+ *
+ * @param I2C_HandleTypeDef* i2c_handle, double* temp
+ *
+ * @retval None
+ */
+void Measure_T(I2C_HandleTypeDef* i2c_handle, double* temp)
+{
+	int tab_temp[2];
+
+	HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, TEMP_OUT_H, 1, tab_temp, 2, HAL_MAX_DELAY);
+	*temp = (double)((tab_temp[0]<<8)+tab_temp[1] - 21.0)/333.87 + 21.0;
+	printf("temp = %.1f\r\n", *temp);
 }
