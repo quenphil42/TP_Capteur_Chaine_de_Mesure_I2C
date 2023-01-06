@@ -147,8 +147,20 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 	//HW Reset
 	printf("debut reset value\r\n");
 
+	printf("debut set PLL\r\n");
+	bcom[0] = 0x02; //choix de la PLL donnant le plus de precision
+	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	if(result != HAL_OK)
+	{
+		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
+		Error_Handler();
+	}
 
-	printf("MPU\r\n");
+	HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, PWR_MGMT_1, 1, bcom, 1, HAL_MAX_DELAY);
+	printf("La valeur de la PLL est : 0x%x\r\n", bcom[0]);
+
+
+	printf("Init MPU\r\n");
 
 	bcom[0] = MPU_RESET_VALUE;
 	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
@@ -157,33 +169,20 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
 		Error_Handler();
 	}
-
-
-	HAL_Delay(100); //laisse le temps d'effacer tous les registres
-
-
 	result = HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom+1, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
 	/*if(result != HAL_OK)
 	{
 		printf("Error I2C Mem Read Init_IMU_10_DOF Reset MPU\r\n");
 		printf("result = %d\r\n", result);
 		Error_Handler();
-	}*/
-	printf("reset value MPU = 0x%x\r\n",bcom[1]);
-
-
-	bcom[0] = 0x01; //choix de la PLL donnant le plus de precision
-	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
-	if(result != HAL_OK)
-	{
-		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
-		Error_Handler();
 	}
+	printf("reset value MPU = 0x%x\r\n",bcom[1]);*/
 
 
 
 
-	printf("BMP\r\n");
+
+	printf("\nInit BMP\r\n");
 
 
 	bcom[0] = BMP_RESET_VALUE;
@@ -203,6 +202,7 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 	printf("reset value BMP = 0x%x\r\n",bcom[1]);
 
 
+	HAL_Delay(100); //laisse le temps d'effacer tous les registres
 	printf("\nfin reset value\r\n\n");
 
 
@@ -217,9 +217,48 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
  */
 void Measure_T(I2C_HandleTypeDef* i2c_handle, double* temp)
 {
-	int tab_temp[2];
+	uint8_t tab_temp[2]; //car valeures non signées
 
 	HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, TEMP_OUT_H, 1, tab_temp, 2, HAL_MAX_DELAY);
-	*temp = (double)((tab_temp[0]<<8)+tab_temp[1] - 21.0)/333.87 + 21.0;
-	printf("temp = %.1f\r\n", *temp);
+	*temp = (((tab_temp[0]<<8)+tab_temp[1]) - 21.0)/333.87 + 21.0;
+	printf("temp = %1.1f\r\n", *temp);
+}
+
+void Measure_A(I2C_HandleTypeDef* i2c_handle, double* accel)
+{
+	uint8_t tab_accel[6]; //car valeures signées
+
+	HAL_I2C_Mem_Read(i2c_handle, MPU_ADDR, ACCEL_XOUT_H, 1, tab_accel, 6, HAL_MAX_DELAY);
+
+	int16_t Xbrut = ((tab_accel[0]<<8) + tab_accel[1]) ;
+	int16_t Ybrut = ((tab_accel[2]<<8) + tab_accel[3]) ;
+	int16_t Zbrut = ((tab_accel[4]<<8) + tab_accel[5]) ;
+
+	float X = Xbrut / ACCEL_FS_SEL_2G;
+	float Y = Ybrut / ACCEL_FS_SEL_2G;
+	float Z = Zbrut / ACCEL_FS_SEL_2G;
+
+	float G = sqrt(pow(Xbrut, 2)+pow(Ybrut, 2)+pow(Zbrut, 2))/ ACCEL_FS_SEL_2G;
+
+	printf("X = %f		Y = %f		Z = %f		G = %f\r\n", X,Y,Z,G);
+}
+
+void Measure_G(I2C_HandleTypeDef* i2c_handle, double* gyro)
+{
+	uint8_t tab_gyro[6]; //car valeures signées
+
+	HAL_I2C_Mem_Read(i2c_handle, MPU_ADDR, GYRO_XOUT_H, 1, tab_gyro, 6, HAL_MAX_DELAY);
+
+	int16_t Xbrut = ((tab_gyro[0]<<8) + tab_gyro[1]) ;
+	int16_t Ybrut = ((tab_gyro[2]<<8) + tab_gyro[3]) ;
+	int16_t Zbrut = ((tab_gyro[4]<<8) + tab_gyro[5]) ;
+
+	float X = Xbrut / SENSITIVITY_SCALE_FACTOR;
+	float Y = Ybrut / SENSITIVITY_SCALE_FACTOR;
+	float Z = Zbrut / SENSITIVITY_SCALE_FACTOR;
+
+	float V = sqrt(pow(Xbrut, 2)+pow(Ybrut, 2)+pow(Zbrut, 2))/ SENSITIVITY_SCALE_FACTOR;
+
+	printf("Vx = %f		Vy = %f		Vz = %f		V = %f\r\n", X,Y,Z,V);
+
 }

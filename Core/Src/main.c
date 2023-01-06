@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include "stdlib.h"
 #include "stdint.h"
 #include <math.h>
 //#include "Const.h"
@@ -75,6 +76,8 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	double temp = 0;
+	double accel = 0;
+	double gyro = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -128,6 +131,9 @@ int main(void)
   {
 
 	  Measure_T(&hi2c1,&temp);
+	  Measure_A(&hi2c1,&accel);
+	  Measure_G(&hi2c1,&gyro);
+	  printf("\r\n");
 	  HAL_Delay(1000);
 
 
