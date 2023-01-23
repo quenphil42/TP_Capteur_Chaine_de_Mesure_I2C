@@ -10,6 +10,9 @@
 #include "IMU_10DOFv2.h"
 
 
+float Asax = 0.0;
+float Asay = 0.0;
+float Asaz = 0.0;
 
 /**
  * @brief fonction qui permet de verifier qu'on arrive à communiquer avec le capteur BMP280
@@ -23,22 +26,22 @@ void SearchBMP280()
 	int result;
 	uint8_t bcom[MAX_COM_BUF];
 
-	bcom[0] = BMP_ID_REG;
+	bcom[0] = BMP_WHO_AM_I;
 	printf("Recherche Capteur BMP280\r\n\n");
 
-	result = HAL_I2C_Master_Transmit(&hi2c1, BMP_ADDR, bcom, 1, HAL_TIMEOUT); //bcom = addresse de bcom[0]
-	if(result != HAL_OK)
+	result = HAL_I2C_Master_Transmit(&hi2c1, BMP_ADD, bcom, 1, HAL_TIMEOUT); //bcom = addresse de bcom[0]
+	/*if(result != HAL_OK)
 		{
 			printf("Error I2C Transmit SearchBMP280\r\n");
 			Error_Handler();
-		}
+		}*/
 
-	result = HAL_I2C_Master_Receive(&hi2c1, BMP_ADDR, bcom+1, 1, HAL_TIMEOUT);
-	if(result != HAL_OK)
+	result = HAL_I2C_Master_Receive(&hi2c1, BMP_ADD, bcom+1, 1, HAL_TIMEOUT);
+	/*if(result != HAL_OK)
 		{
 			printf("Error I2C Receive SearchBMP280\r\n");
 			Error_Handler();
-		}
+		}*/
 
 	printf("Registre : %d et contenu %d\r\n\n", bcom[0], bcom[1]);
 	if (bcom[1]==BMP_WHO_AM_I_ID_VAL) printf("Capteur BMP280 trouve\r\n\n");
@@ -49,7 +52,7 @@ void SearchBMP280()
 /**
  * @brief fonction qui permet de verifier qu'on arrive à communiquer avec le capteur MPU9250
  *
- * @param bcom (uint8)
+ * @param None
  *
  * @retval None
  */
@@ -63,23 +66,26 @@ void SearchMPU9250()
 	  printf("Recherche Capteur MPU9250\r\n\n");
 
 	  result = HAL_I2C_Master_Transmit(&hi2c1, MPU_ADDR, bcom, 1, HAL_TIMEOUT); //bcom = addresse de bcom[0]
-	  if(result != HAL_OK)
+	  /*if(result != HAL_OK)
 		{
 		  printf("Error I2C Transmit SearchMPU9250\r\n");
 		  Error_Handler();
-		}
+		}*/
 
 	  result = HAL_I2C_Master_Receive(&hi2c1, MPU_ADDR, bcom+1, 1, HAL_TIMEOUT);
-	  if(result != HAL_OK)
+	  /*if(result != HAL_OK)
 	  {
 	  	printf("Error I2C Receive SearchMPU9250\r\n");
 	  	Error_Handler();
-	  }
+	  }*/
 
 	  printf("En decimal, Registre : %d et contenu %d\r\n\n", bcom[0], bcom[1]);
 	  if (bcom[1]==MPU_WHO_AM_I_ID_VAL) printf("Capteur MPU9250 trouve\r\n\n");
-	  else printf("Error : Capteur non trouve, verifier addresse WHO_AM_I_MPU9250\r\n\n\n");
+	  else printf("Error : Capteur non trouve, verifier addresse MPU_ID_REG\r\n\n\n");
 }
+
+
+
 
 /**
  * @brief Fonction qui vient tester la presence de capteurs sur le bus I2C et les print via UART
@@ -149,12 +155,12 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 
 	printf("debut set PLL\r\n");
 	bcom[0] = 0x02; //choix de la PLL donnant le plus de precision
-	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	/*result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
 	if(result != HAL_OK)
 	{
 		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
 		Error_Handler();
-	}
+	}*/
 
 	HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, PWR_MGMT_1, 1, bcom, 1, HAL_MAX_DELAY);
 	printf("La valeur de la PLL est : 0x%x\r\n", bcom[0]);
@@ -164,11 +170,11 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 
 	bcom[0] = MPU_RESET_VALUE;
 	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
-	if(result != HAL_OK)
+	/*if(result != HAL_OK)
 	{
 		printf("Error I2C Mem Write Init_IMU_10_DOF Reset MPU\r\n");
 		Error_Handler();
-	}
+	}*/
 	result = HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, PWR_MGMT_1,1, bcom+1, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
 	/*if(result != HAL_OK)
 	{
@@ -185,21 +191,62 @@ void Init_IMU_10DOF(I2C_HandleTypeDef* i2c_handle)
 	printf("\nInit BMP\r\n");
 
 
+
 	bcom[0] = BMP_RESET_VALUE;
-	result = HAL_I2C_Mem_Write(&hi2c1, BMP_ADDR, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
-	if(result != HAL_OK)
+	result = HAL_I2C_Mem_Write(&hi2c1, BMP_ADD, PWR_MGMT_1,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	/*if(result != HAL_OK)
 	{
 		printf("Error I2C Mem Write Init_IMU_10_DOF Reset BMP\r\n");
 		Error_Handler();
-	}
-	result = HAL_I2C_Mem_Read(&hi2c1, BMP_ADDR, PWR_MGMT_1,1, bcom+1, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
-	if(result != HAL_OK)
+	}*/
+	result = HAL_I2C_Mem_Read(&hi2c1, BMP_ADD, PWR_MGMT_1,1, bcom+1, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	/*if(result != HAL_OK)
 	{
 		printf("Error I2C Mem Read Init_IMU_10_DOF Reset BMP\r\n");
 		printf("result = %d\r\n", result);
 		Error_Handler();
-	}
+	}*/
 	printf("reset value BMP = 0x%x\r\n",bcom[1]);
+
+
+
+
+
+	printf("\nInit Magneto\r\n");
+
+	//configuration des registres
+
+	// EN Com I²C avec le magnetometre --> BYPASS-EN
+	result = HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR, MPU_INTERNAL_BYPASS_CONFIG,1, bcom, 1, HAL_MAX_DELAY);
+	bcom[0] = bcom[0]|0x02; //on masque l'info pour modifier uniquement les bits qui nous interressent dans le registre
+	result = HAL_I2C_Mem_Write(&hi2c1, MPU_ADDR, MPU_INTERNAL_BYPASS_CONFIG,1, bcom, 1, HAL_MAX_DELAY); // on envoi la nouvelle config
+
+	// Config Magnetometre
+	bcom[0] = 22;	// 00010110 = 22 --> Output bit setting = 16 and Continuous measurement mode 2
+	result = HAL_I2C_Mem_Write(&hi2c1, BMP_ADD, MAGNETO_CNTL,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	/*if(result != HAL_OK)
+	{
+		printf("Error I2C Mem Write Init_IMU_10_DOF Config Magneto\r\n");
+		Error_Handler();
+	}*/
+
+	/*
+	// Enable Com I²C avec le magnetometre si elle a été coupée
+	bcom[0] = 0;	// Enable I2C COM
+	result = HAL_I2C_Mem_Write(&hi2c1, BMP_ADDR, MAGNETO_I2CDIS,1, bcom, 1, HAL_MAX_DELAY); //bcom = addresse de bcom[0]
+	if(result != HAL_OK)
+	{
+		printf("Error I2C Mem Write Init_IMU_10_DOF Enable I2C Com Magneto\r\n");
+		Error_Handler();
+	}
+	*/
+
+	//lecture des registres sensibilite
+	uint8_t tab_ASA[3]; //car valeures signées
+	HAL_I2C_Mem_Read(i2c_handle, BMP_ADD, MAGNETO_ASAX, 1, tab_ASA, 3, HAL_MAX_DELAY);
+	Asax = ((float)tab_ASA[0] - 128.0) * 0.5 / 128.0 + 1.0;
+	Asay = ((float)tab_ASA[1] - 128.0) * 0.5 / 128.0 + 1.0;
+	Asaz = ((float)tab_ASA[2] - 128.0) * 0.5 / 128.0 + 1.0;
 
 
 	HAL_Delay(100); //laisse le temps d'effacer tous les registres
@@ -260,5 +307,26 @@ void Measure_G(I2C_HandleTypeDef* i2c_handle, double* gyro)
 	float V = sqrt(pow(Xbrut, 2)+pow(Ybrut, 2)+pow(Zbrut, 2))/ SENSITIVITY_SCALE_FACTOR;
 
 	printf("Vx = %f		Vy = %f		Vz = %f		V = %f\r\n", X,Y,Z,V);
+
+}
+
+
+void Measure_M(I2C_HandleTypeDef* i2c_handle, double* magneto)
+{
+	uint8_t tab_magneto[6]; //car valeures signées
+
+	HAL_I2C_Mem_Read(i2c_handle, BMP_ADD, MAGNETO_HXL, 1, tab_magneto, 6, HAL_MAX_DELAY);
+
+	int16_t Xbrut = ((tab_magneto[1]<<8) + tab_magneto[0]) ;
+	int16_t Ybrut = ((tab_magneto[3]<<8) + tab_magneto[2]) ;
+	int16_t Zbrut = ((tab_magneto[5]<<8) + tab_magneto[6]) ;
+
+	float X = Xbrut * Asax;
+	float Y = Ybrut * Asay;
+	float Z = Zbrut * Asaz;
+
+	float M = sqrt(pow(X, 2)+pow(Y, 2)+pow(Z, 2));
+
+	printf("Mx = %f		My = %f		Mz = %f		M = %f\r\n", X,Y,Z,M);
 
 }

@@ -1,8 +1,9 @@
-../Core/Src/IMU_10DOFv2.c:21:6:SearchBMP280	32	static
-../Core/Src/IMU_10DOFv2.c:56:6:SearchMPU9250	32	static
-../Core/Src/IMU_10DOFv2.c:91:6:TestSensorOnI2C	32	static
-../Core/Src/IMU_10DOFv2.c:120:6:PrintTab	24	static
-../Core/Src/IMU_10DOFv2.c:141:6:Init_IMU_10DOF	48	static
-../Core/Src/IMU_10DOFv2.c:218:6:Measure_T	40	static
-../Core/Src/IMU_10DOFv2.c:227:6:Measure_A	96	static
-../Core/Src/IMU_10DOFv2.c:246:6:Measure_G	96	static
+../Core/Src/IMU_10DOFv2.c:24:6:SearchBMP280	32	static
+../Core/Src/IMU_10DOFv2.c:59:6:SearchMPU9250	32	static
+../Core/Src/IMU_10DOFv2.c:97:6:TestSensorOnI2C	32	static
+../Core/Src/IMU_10DOFv2.c:126:6:PrintTab	24	static
+../Core/Src/IMU_10DOFv2.c:147:6:Init_IMU_10DOF	48	static
+../Core/Src/IMU_10DOFv2.c:265:6:Measure_T	40	static
+../Core/Src/IMU_10DOFv2.c:274:6:Measure_A	96	static
+../Core/Src/IMU_10DOFv2.c:293:6:Measure_G	96	static
+../Core/Src/IMU_10DOFv2.c:314:6:Measure_M	96	static

@@ -78,6 +78,7 @@ int main(void)
 	double temp = 0;
 	double accel = 0;
 	double gyro = 0;
+	double magneto = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -112,17 +113,20 @@ int main(void)
 
   TestSensorOnI2C(tabI2CAdd);
 
-  // On cherche le MPU9250
+  SearchMPU9250();  		// On cherche le MPU9250
 
-  SearchMPU9250();
+  SearchBMP280();			// On cherche le BMP280 visible à 0x18 avant Init()
 
-  // On cherche le BMP280
-
-  SearchBMP280();
-
-  PrintTab(tabI2CAdd); //on affiche les valeurs du tableau d'addresse
+  PrintTab(tabI2CAdd); 		// On affiche les valeurs du tableau d'addresse
 
   Init_IMU_10DOF(&hi2c1);
+
+  SearchBMP280();			// On cherche le BMP280 visible à 0x18 après Init()
+
+  TestSensorOnI2C(tabI2CAdd);
+  PrintTab(tabI2CAdd); 		// On affiche les valeurs du tableau d'addresse
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -133,6 +137,7 @@ int main(void)
 	  Measure_T(&hi2c1,&temp);
 	  Measure_A(&hi2c1,&accel);
 	  Measure_G(&hi2c1,&gyro);
+	  Measure_M(&hi2c1,&magneto);
 	  printf("\r\n");
 	  HAL_Delay(1000);
 
